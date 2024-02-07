@@ -2,6 +2,8 @@
 Package where filters related to the learning architectural subdomain are implemented.
 """
 
+from typing import Optional
+
 from openedx_filters.exceptions import OpenEdxFilterException
 from openedx_filters.tooling import OpenEdxPublicFilter
 from openedx_filters.utils import SensitiveDataManagementMixin
@@ -712,26 +714,28 @@ class ORASubmissionViewRenderStarted(OpenEdxPublicFilter):
 
     class RenderInvalidTemplate(OpenEdxFilterException):
         """
-        Custom class used to stop the dashboard render process.
+        Custom class used to stop the submission view render process.
         """
 
-        def __init__(self, message: str, template: str = ""):
+        def __init__(self, message: str, context: Optional[dict] = None, template_name: str = ""):
             """
             Override init that defines specific arguments used in the submission view render process.
 
             Arguments:
                 message (str): error message for the exception.
-                template (str): template path rendered instead.
+                context (dict): context used to the submission view template.
+                template_name (str): template path rendered instead.
             """
-            super().__init__(message, template=template)
+            super().__init__(message, context=context, template_name=template_name)
 
     @classmethod
-    def run_filter(cls, template_name: str):
+    def run_filter(cls, context: dict, template_name: str):
         """
         Execute a filter with the signature specified.
 
         Arguments:
+            context (dict): context dictionary for submission view template.
             template_name (str): template name to be rendered by the student's dashboard.
         """
-        data = super().run_pipeline(template_name=template_name)
-        return data.get("template_name")
+        data = super().run_pipeline(context=context, template_name=template_name, )
+        return data.get("context"), data.get("template_name")
