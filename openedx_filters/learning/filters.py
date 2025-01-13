@@ -15,9 +15,9 @@ from openedx_filters.utils import SensitiveDataManagementMixin
 
 class AccountSettingsRenderStarted(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to modify the rendering of the account settings page in the LMS.
+    Filter used to modify the rendering of the account settings page in the LMS.
 
+    Purpose:
         This filter is triggered when a user visits the account settings page, just before the page is rendered allowing
         the filter to modify the context and the template used to render the page.
 
@@ -112,8 +112,11 @@ class AccountSettingsRenderStarted(OpenEdxPublicFilter):
 
 class StudentRegistrationRequested(OpenEdxPublicFilter, SensitiveDataManagementMixin):
     """
-    Description:
-        Filter used to modify the registration process, triggered when a user begins registration in the LMS.
+    Filter used to modify the registration process of a given user in the LMS.
+
+    Purpose:
+        This filter is triggered when a user tries to register, just before the registration process is completed
+        allowing the filter to act on the registration form data.
 
     Filter Type:
         org.openedx.learning.student.registration.requested.v1
@@ -162,9 +165,9 @@ class StudentRegistrationRequested(OpenEdxPublicFilter, SensitiveDataManagementM
 
 class StudentLoginRequested(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to modify the login process.
+    Filter used to modify the login process of a given user in the LMS.
 
+    Purpose:
         This filter is triggered when a user tries to log in, just before the login process is completed allowing the
         filter to act on the user object.
 
@@ -219,9 +222,9 @@ class StudentLoginRequested(OpenEdxPublicFilter):
 
 class CourseEnrollmentStarted(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to modify the course enrollment process.
+    Filter used to modify the enrollment process for a given user in a course.
 
+    Purpose:
         This filter is triggered when a user initiates the enrollment process, just before the enrollment is completed
         allowing the filter to act on the user, course key, and mode.
 
@@ -267,9 +270,9 @@ class CourseEnrollmentStarted(OpenEdxPublicFilter):
 
 class CourseUnenrollmentStarted(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to modify the course unenrollment process.
+    Filter used to modify the unenrollment process for a given user from a course.
 
+    Purpose:
         This filter is triggered when a user initiates the unenrollment process, just before the unenrollment is
         completed allowing the filter to act on the user's enrollment in the course.
 
@@ -309,9 +312,9 @@ class CourseUnenrollmentStarted(OpenEdxPublicFilter):
 
 class CertificateCreationRequested(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to modify the certificate creation process.
+    Filter used to modify the certificate creation process for a given user in a course.
 
+    Purpose:
         This filter is triggered when a user requests a certificate, just before the certificate is created allowing the
         filter to act on the user, course key, mode, status, grade, and generation mode.
 
@@ -340,7 +343,7 @@ class CertificateCreationRequested(OpenEdxPublicFilter):
         """
 
     @classmethod
-    def run_filter(
+    def run_filter(  # pylint: disable=too-many-positional-arguments
         cls: type,
         user: Any,
         course_key: CourseKey,
@@ -348,7 +351,7 @@ class CertificateCreationRequested(OpenEdxPublicFilter):
         status: str,
         grade: float,
         generation_mode: str,
-    ) -> tuple[Any, CourseKey, str, str, float, str]:  # pylint: disable=too-many-positional-arguments
+    ) -> tuple[Any, CourseKey, str, str, float, str]:
         """
         Process the inputs using the configured pipeline steps to modify the certificate creation process.
 
@@ -388,9 +391,9 @@ class CertificateCreationRequested(OpenEdxPublicFilter):
 
 class CertificateRenderStarted(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to modify the certificate rendering process.
+    Filter used to modify the rendering of a certificate.
 
+    Purpose:
         This filter is triggered when a user requests to view the certificate, just before the certificate is rendered
         allowing the filter to act on the context and the template used to render the certificate.
 
@@ -474,9 +477,9 @@ class CertificateRenderStarted(OpenEdxPublicFilter):
 
 class CohortChangeRequested(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to modify the cohort change process.
+    Filter used to modify the cohort change process.
 
+    Purpose:
         This filter is triggered when a user's cohort is changed, just before the change is completed allowing the
         filter to act on the user and the target cohort.
 
@@ -517,9 +520,9 @@ class CohortChangeRequested(OpenEdxPublicFilter):
 
 class CohortAssignmentRequested(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to modify the cohort assignment process.
+    Filter used to modify the cohort assignment process.
 
+    Purpose:
         This filter is triggered when a user is assigned to a cohort, just before the assignment is completed allowing
         the filter to act on the user and the target cohort.
 
@@ -560,9 +563,9 @@ class CohortAssignmentRequested(OpenEdxPublicFilter):
 
 class CourseAboutRenderStarted(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to modify the course about rendering process.
+    Filter used to modify the course about rendering process.
 
+    Purpose:
         This filter is triggered when a user requests to view the course about page, just before the page is rendered
         allowing the filter to act on the context and the template used to render the page.
 
@@ -652,9 +655,9 @@ class CourseAboutRenderStarted(OpenEdxPublicFilter):
 
 class DashboardRenderStarted(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to modify the dashboard rendering process.
+    Filter used to modify the dashboard rendering process.
 
+    Purpose:
         This filter is triggered when a user requests to view the dashboard, just before the page is rendered allowing
         the filter to act on the context and the template used to render the page.
 
@@ -745,9 +748,9 @@ class DashboardRenderStarted(OpenEdxPublicFilter):
 
 class VerticalBlockChildRenderStarted(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to modify the rendering of a child block within a vertical block.
+    Filter used to modify the rendering of a child block within a vertical block.
 
+    Purpose:
         This filter is triggered when a child block is about to be rendered within a vertical block, allowing the filter
         to act on the block and the context used to render the child block.
 
@@ -789,8 +792,11 @@ class VerticalBlockChildRenderStarted(OpenEdxPublicFilter):
 
 class CourseEnrollmentQuerysetRequested(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to modify the QuerySet of course enrollments.
+    Filter used to modify the QuerySet of course enrollments.
+
+    Purpose:
+        This filter is triggered when a QuerySet of course enrollments is requested, allowing the filter to act on the
+        enrollments data.
 
     Filter Type:
         org.openedx.learning.course_enrollment_queryset.requested.v1
@@ -826,9 +832,9 @@ class CourseEnrollmentQuerysetRequested(OpenEdxPublicFilter):
 
 class RenderXBlockStarted(OpenEdxPublicFilter):
     """
-    Description:
-        Filter in between context generation and rendering of XBlock scope.
+    Filter in between context generation and rendering of XBlock scope.
 
+    Purpose:
         This filter is triggered when an XBlock is about to be rendered, just before the rendering process is completed
         allowing the filter to act on the context and student_view_context used to render the XBlock.
 
@@ -886,9 +892,9 @@ class RenderXBlockStarted(OpenEdxPublicFilter):
 
 class VerticalBlockRenderCompleted(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to act on vertical block rendering completed.
+    Filter used to act on vertical block rendering completed.
 
+    Purpose:
         This filter is triggered when a vertical block is rendered, just after the rendering process is completed
         allowing the filter to act on the block, fragment, context, and view used to render the vertical block.
 
@@ -934,9 +940,9 @@ class VerticalBlockRenderCompleted(OpenEdxPublicFilter):
 
 class CourseHomeUrlCreationStarted(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to modify the course home url creation process.
+    Filter used to modify the course home url creation process.
 
+    Purpose:
         This filter is triggered when a course home url is being generated, just before the generation process is
         completed allowing the filter to act on the course key and course home url.
 
@@ -970,9 +976,9 @@ class CourseHomeUrlCreationStarted(OpenEdxPublicFilter):
 
 class CourseEnrollmentAPIRenderStarted(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to modify the course enrollment API rendering process.
+    Filter used to modify the course enrollment API rendering process.
 
+    Purpose:
         This filter is triggered when a user requests to view the course enrollment API, just before the API is rendered
         allowing the filter to act on the course key and serialized enrollment data.
 
@@ -1006,9 +1012,9 @@ class CourseEnrollmentAPIRenderStarted(OpenEdxPublicFilter):
 
 class CourseRunAPIRenderStarted(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to modify the course run API rendering process.
+    Filter used to modify the course run API rendering process.
 
+    Purpose:
         This filter is triggered when a user requests to view the course run API, just before the API is rendered
         allowing the filter to act on the serialized course run data.
 
@@ -1040,9 +1046,9 @@ class CourseRunAPIRenderStarted(OpenEdxPublicFilter):
 
 class InstructorDashboardRenderStarted(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to modify the instructor dashboard rendering process.
+    Filter used to modify the instructor dashboard rendering process.
 
+    Purpose:
         This filter is triggered when an instructor requests to view the dashboard, just before the page is rendered
         allowing the filter to act on the context and the template used to render the page.
 
@@ -1132,9 +1138,9 @@ class InstructorDashboardRenderStarted(OpenEdxPublicFilter):
 
 class ORASubmissionViewRenderStarted(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to modify the submission view rendering process.
+    Filter used to modify the submission view rendering process.
 
+    Purpose:
         This filter is triggered when a user requests to view the submission, just before the page is rendered allowing
         the filter to act on the context and the template used to render the page.
 
@@ -1185,9 +1191,9 @@ class ORASubmissionViewRenderStarted(OpenEdxPublicFilter):
 
 class IDVPageURLRequested(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to act on ID verification page URL requests.
+    Filter used to act on ID verification page URL requests.
 
+    Purpose:
         This filter is triggered when a user requests to view the ID verification page, just before the page is rendered
         allowing the filter to act on the URL of the page.
 
@@ -1219,9 +1225,9 @@ class IDVPageURLRequested(OpenEdxPublicFilter):
 
 class CourseAboutPageURLRequested(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to act on course about page URL requests.
+    Filter used to act on course about page URL requests.
 
+    Purpose:
         This filter is triggered when a user requests to view the course about page, just before the page is rendered
         allowing the filter to act on the URL of the page and the course org.
 
@@ -1255,10 +1261,11 @@ class CourseAboutPageURLRequested(OpenEdxPublicFilter):
 
 class ScheduleQuerySetRequested(OpenEdxPublicFilter):
     """
-    Description:
-        Filter used to apply additional filtering to a given QuerySet of Schedules.
+    Filter used to apply additional filtering to a given QuerySet of Schedules.
 
-        If you want to know more about the Schedules feature, please refer:
+    Purpose:
+        This filter is triggered when a QuerySet of Schedules is requested, allowing the filter to act on the schedules
+        data. If you want to know more about the Schedules feature, please refer to the official documentation:
             - https://github.com/openedx/edx-platform/tree/master/openedx/core/djangoapps/schedules#readme
 
     Filter Type:
