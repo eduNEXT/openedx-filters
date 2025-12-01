@@ -368,7 +368,7 @@ class CertificateCreationRequested(OpenEdxPublicFilter):
         """
 
     @classmethod
-    def run_filter(  # pylint: disable=too-many-positional-arguments # noqa: PLR0917
+    def run_filter(  # pylint: disable=too-many-positional-arguments
         cls,
         user: Any,
         course_key: CourseKey,
